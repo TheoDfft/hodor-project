@@ -1,0 +1,201 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HODOR</title>
+</head>
+<body>
+    <h1>HODOR</h1>
+    <img id="video_feed" src="{{ url_for('video_feed') }}" width="640" height="480">
+</body>
+</html> -->
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HODOR</title>
+    <style>
+        /* Basic Reset */
+        body, h1, img {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Font and Dark Color Scheme */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #121212; /* Dark background */
+            color: #e0e0e0; /* Light grey text for contrast */
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #ffffff; /* Bright white for titles */
+        }
+
+        /* Image and Video Feed Styles */
+        #video_feed {
+            border: 5px solid #333333; /* Darker border for contrast */
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255,255,255,.5); /* Light shadow for depth */
+        }
+
+        /* Responsive Design */
+        @media (max-width: 700px) {
+            h1 {
+                font-size: 2rem;
+            }
+            #video_feed {
+                width: 90%;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>HODOR</h1>
+    <img id="video_feed" src="{{ url_for('video_feed') }}" width="640" height="480">
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HODOR</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Extended CSS styles */
+        /* Basic Reset */
+        body, h1, img, ul, li, a, button {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Font and Dark Color Scheme */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #121212; /* Dark background */
+            color: #e0e0e0; /* Light grey text for contrast */
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0 auto;
+        }
+
+        h1, h2 {
+            color: #ffffff; /* Bright white for titles */
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin: 20px 0;
+        }
+
+        /* Placeholder elements styles */
+        .placeholder {
+            background: #333;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        a, button {
+            background-color: #444;
+            color: #fff;
+            padding: 10px 15px;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            margin: 10px;
+            cursor: pointer;
+        }
+
+        a:hover, button:hover {
+            background-color: #555;
+        }
+
+        /* Image and Video Feed Styles */
+        #video_feed {
+            border: 5px solid #333333; /* Darker border for contrast */
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255,255,255,.5); /* Light shadow for depth */
+        }
+
+        .detected-names, .additional-content {
+            color: #ffffff; /* Bright white for visibility */
+            margin-left: 20px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 700px) {
+            h1 {
+                font-size: 2rem;
+            }
+            #video_feed, .detected-names, .additional-content {
+                width: 90%;
+                height: auto;
+                margin-left: 0;
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>HODOR</h1>
+    <div class="content-container">
+        <img id="video_feed" src="{{ url_for('video_feed') }}" width="640" height="480">
+        <div class="detected-names">
+            <h2>Detected Persons:</h2>
+            <ul id="names-list"></ul> <!-- Dynamic name list -->
+        </div>
+    </div>
+    <div class="additional-content">
+        <button>Placeholder Button</button>
+        <a href="#">Placeholder Link</a>
+        <div class="placeholder">
+            <p>This is a placeholder graphic.</p>
+        </div>
+    </div>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script>
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        socket.on('connect', function() {
+            console.log('Websocket connected!');
+        });
+
+        socket.on('detected_names', function(names) {
+            const namesList = document.getElementById('names-list');
+            namesList.innerHTML = ''; // Clear the existing list
+            names.forEach(name => {
+                const listItem = document.createElement('li');
+                listItem.textContent = name;
+                namesList.appendChild(listItem);
+            });
+        });
+    </script>
+</body>
+</html>
