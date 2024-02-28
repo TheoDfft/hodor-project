@@ -6,8 +6,17 @@ import numpy as np
 import face_recognition
 from flask import Flask, render_template, Response, jsonify
 from flask_socketio import SocketIO, emit
-from pushover import init, Client
 import time
+import requests
+
+import base64
+import os
+from email.mime.text import MIMEText
+from google.auth.transport.requests import Request
+from google.oauth2.credentials import Credentials
+from google_auth_oauthlib.flow import InstalledAppFlow
+from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
 
 DEFAULT_ENCODINGS_PATH = Path("Encodings/encodings.pkl")
 
@@ -15,12 +24,45 @@ app = Flask(__name__)
 socketio = SocketIO(app)
 cap = cv2.VideoCapture(0)
 
-# Your Pushover API token and user key
-pushover_api_token = 'acqnqxckdz3hhaqkn1gebpj2vq9hcb'
-pushover_user_key = 'u3mra51amezcopes8nx5csnkm2xn11'
-# Initialize Pushover with your API token
-init(pushover_api_token)
+def send_email_notification(message):
+    SCOPES = [
+            "https://www.googleapis.com/auth/gmail.send"
+        ]
 
+    creds = None
+
+    if os.path.exists("credentials.json"):
+        try:
+            creds = Credentials.from_authorized_user_file("credentials.json", SCOPES)
+            print(creds)
+        except Exception as e:
+            print(e)
+            creds = None
+    # If there are no (valid) credentials available, let the user log in.
+    if not creds or not creds.valid:
+        if creds and creds.expired and creds.refresh_token:
+            creds.refresh(Request())
+        else:
+            flow = InstalledAppFlow.from_client_secrets_file(
+                "credentials.json", SCOPES
+            )
+            creds = flow.run_local_server(port=0)
+        # Save the credentials for the next run
+        with open("credentials.json", "w") as token:
+            token.write(creds.to_json())
+
+    service = build('gmail', 'v1', credentials=creds)
+    message = MIMEText(message)
+    message['to'] = 'td32@cttd.biz'
+    message['subject'] = 'New Face(s) Detected by Hodor'
+    create_message = {'raw': base64.urlsafe_b64encode(message.as_bytes()).decode()}
+
+    try:
+        message = (service.users().messages().send(userId="me", body=create_message).execute())
+        print(F'sent message to {message} Message Id: {message["id"]}')
+    except HttpError as error:
+        print(F'An error occurred: {error}')
+        message = None
 
 # parser = argparse.ArgumentParser(description="Recognize faces in a live video stream")
 # parser.add_argument("--train", action="store_true", help="Train on input data")
@@ -48,14 +90,9 @@ class RateLimiter:
             return True
         return False
 
-def send_pushover_notification(message):
-    Client(pushover_user_key).send_message(message, title="Detection Alert")
-
 def recognize_live_faces(model: str = "hog", encodings_location: Path = DEFAULT_ENCODINGS_PATH) -> None:
     with encodings_location.open(mode="rb") as f:
         loaded_encodings = pickle.load(f)
-    
-    # cap = cv2.VideoCapture(0)
 
     while (True):
         names_detected = []
@@ -84,8 +121,8 @@ def recognize_live_faces(model: str = "hog", encodings_location: Path = DEFAULT_
         
             names_detected.append(name)
             
-        if names_detected and notification_limiter.allow_action():
-            send_pushover_notification(f"People detected at the front door: {names_detected}")
+        # if names_detected and notification_limiter.allow_action():
+        #     send_pushover_notification(f"People detected at the front door: {names_detected}")
 
         # cv2.imshow('Video Feed', frame)
         # print(name)
@@ -128,10 +165,10 @@ def video_feed():
     return Response(recognize_live_faces(),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
-# @app.route('/detected_names')
-# def detected_names():
-#     global names_detected
-#     return jsonify(names_detected)
+@app.route('/detected_names')
+def detected_names():
+    global names_detected
+    return jsonify(names_detected)
 
 if __name__ == "__main__":
     # recognize_live_faces()
@@ -142,6 +179,6 @@ if __name__ == "__main__":
     #     # app.run(host='0.0.0.0', port=3000, debug=True)
     #     recognize_live_faces()
     # else:
-    #     app.run(host='0.0.0.0', port=3000, debug=True, use_reloader=False)
+        # app.run(host='0.0.0.0', port=3000, debug=True, use_reloader=False)
     #     # recognize_live_faces()
 
