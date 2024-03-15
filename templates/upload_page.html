@@ -4,30 +4,65 @@
 <head>
     <meta charset="utf-8">
     <title>Upload new File</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
+        font-family: 'Orbitron', sans-serif;
+        background-color: #121212;
+        color: #e0e0e0;
+        margin: auto;
+        padding: auto;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        height: 100vh;
+        flex-direction: column;
+    }
         .container {
-            width: 80%;
-            margin: auto;
-            overflow: hidden;
-        }
-        h1 {
-            color: #3d3d3d;
-            font-size: 2em;
-            margin-top: 20px;
-            text-align: center;
-        }
-        form {
-            background-color: #ffffff;
+            display: flex;
+            align-items: center;
+            max-width: fit-content;
+            border: solid 5px transparent;
+            border-image: linear-gradient(to right, #ff6b6b, #f06595, #c060f0, #6e8efb) 1;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255,255,255,.5);
             padding: 20px;
-            margin-top: 20px;
-            border-radius: 8px;
-            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+            width: 50%;
+        }
+
+        .Headers {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        /* Gradient Text for Headers */
+        .gradient-text {
+            background: linear-gradient(to right, #ff6b6b, #f06595, #c060f0, #6e8efb);
+            -webkit-background-clip: text;
+            color: transparent; /* Fallback color */
+            display: inline-block; /* Required for gradient background to work */
+        }
+
+        h1 {
+            color: #ffffff;
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 10px;
+            margin-inline-start: 0px;
+            margin-inline-end: 0px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            margin-top: 10px;
+
+        }
+
+        form {
+            background-color: transparent;
+            border: none;
+            box-shadow: none;
         }
         input[type="text"], input[type="file"] {
             width: 100%;
@@ -37,9 +72,10 @@
             border: 1px solid #ccc;
             border-radius: 4px;
             box-sizing: border-box;
+            background: #ffffff;
+            color: #000000;
         }
         input[type="submit"] {
-            width: 100%;
             background-color: #4CAF50;
             color: white;
             padding: 14px 20px;
@@ -48,17 +84,21 @@
             border-radius: 4px;
             cursor: pointer;
         }
+
         input[type="submit"]:hover {
             background-color: #45a049;
         }
     </style>
 </head>
 <body>
+    <div class="Headers">
+        <h1 class="gradient-text">Hodor Trainer</h1>
+        <h2 class="sub-header">Upload new faces for Hodor to learn</h2>
+    </div>
     <div class="container">
-        <h1>Upload new File</h1>
         <form action="" method="post" enctype="multipart/form-data">
             <!-- Add CSRF token here -->
-            <input type="text" name="person_name" placeholder="Person's Name" required>
+            <input type="text" name="person_name" placeholder="Person's Name ('FirstName_LastName')" required>
             <input type="file" name="files[]" multiple accept="image/png, image/jpeg">
             <input type="submit" value="Upload">
         </form>
