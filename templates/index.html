@@ -1,75 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HODOR</title>
-</head>
-<body>
-    <h1>HODOR</h1>
-    <img id="video_feed" src="{{ url_for('video_feed') }}" width="640" height="480">
-</body>
-</html> -->
-
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HODOR</title>
-    <style>
-        /* Basic Reset */
-        body, h1, img {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        /* Font and Dark Color Scheme */
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #121212; /* Dark background */
-            color: #e0e0e0; /* Light grey text for contrast */
-            line-height: 1.6;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            height: 100vh;
-            margin: 0 auto;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            color: #ffffff; /* Bright white for titles */
-        }
-
-        /* Image and Video Feed Styles */
-        #video_feed {
-            border: 5px solid #333333; /* Darker border for contrast */
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(255,255,255,.5); /* Light shadow for depth */
-        }
-
-        /* Responsive Design */
-        @media (max-width: 700px) {
-            h1 {
-                font-size: 2rem;
-            }
-            #video_feed {
-                width: 90%;
-                height: auto;
-            }
-        }
-    </style>
-</head>
-<body>
-    <h1>HODOR</h1>
-    <img id="video_feed" src="{{ url_for('video_feed') }}" width="640" height="480">
-</body>
-</html> -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -77,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HODOR</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <style>
         /* Extended CSS styles */
         /* Basic Reset */
@@ -86,100 +15,315 @@
             box-sizing: border-box;
         }
 
-        /* Font and Dark Color Scheme */
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #121212; /* Dark background */
-            color: #e0e0e0; /* Light grey text for contrast */
-            line-height: 1.6;
+        /* Set the borders for the text Live Monitoring */
+        .detected-names {
             display: flex;
-            justify-content: center;
-            align-items: center;
             flex-direction: column;
-            height: 100vh;
-            margin: 0 auto;
+            align-items: start;
+            border: solid 5px transparent;
+            border-image: linear-gradient(to right, #ff6b6b, #f06595, #c060f0, #6e8efb) 1;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255,255,255,.5);
+            padding: 20px;
+            margin-top: 20px;
+            font-size: 1.5rem;
         }
 
-        h1, h2 {
-            color: #ffffff; /* Bright white for titles */
+        .detected-names ul {
+            margin-inline-start: 20px;
+            font-size: 1.5rem;
+        }
+
+        .detected-names h2 {
+            font-size: 1.5rem;
+        }
+
+        /* Flex Container */
+        .flex-container {
+            display: flex;
+            justify-content: center; /* Centers the child elements */
+            align-items: flex-center;
+            width: 100%;
+            max-width: 1200px; /* Adjust based on your preference */
+            margin: 10px auto;
+            border: solid 8px transparent;
+        }
+
+        .video-container {
+            flex: 1 1 auto; /* Allows the video container to grow and shrink */
+            max-width: 640px; /* Maximum width of the video container */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Detected History Section */
+        .detected-history {
+            display: flex-block;
+            position: relative;
+            top: 163px;
+            margin: 10px;
+            width: 400px; /* Set a fixed width for the timeline */
+            padding: 30px;
+            max-height: 500px; /* Match the video feed height */
+            /* overflow-y: auto; */
+            /* background: #121212; */
+            border: solid 5px transparent;
+            border-radius: 10px; /* Maintain the border-radius */
+            border-image: linear-gradient(to right, #ff6b6b, #f06595, #c060f0, #6e8efb) 1;
+            box-shadow: 0 0 15px rgba(255,255,255,.5);
+            border-radius: 10px;
+        }
+        
+        /* Sticky Header */
+        .detected-history h2 {
+            color: #ffffff;
+            /* background: #444; */
+            /* padding: 10px 20px; */
+            font-size: 1.5rem;
+            margin-top: -20px; /* Align with padding of detected-history */
+            width: 100%; /*Align with padding of detected-history */
+            /* position: sticky; */
+            top: 0;
+            z-index: 10;
+            border: solid 5px transparent;
+            /* border-radius: 10px 10px 0 0; */
+        }
+
+        /* Adjust the body style for overall layout */
+        body {
+            display: flex; /* Use flex to center content horizontally */
+            justify-content: center; /* Center the flex-container */
+            align-items: center; /* Center the flex-container vertically */
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: 'Orbitron', sans-serif;
+            line-height: 1.6;
+            height: 100vh; /* Full viewport height */
+            margin: 5;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
         h1 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            margin-block-start: 0em;
+            margin-block-end: 0em;
+            text-align: center;
+            color: #ffffff;
         }
-
         h2 {
-            font-size: 1.5rem;
-            margin: 20px 0;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.0rem;
+            text-align: center;
+            margin-block-start: 0.00em;
+            margin-block-end: 0.83em;
+        }
+        /* Gradient Border Styles */
+        .gradient-border {
+            /* Define a gradient for the border */
+            border: solid 8px transparent; /* Set border size and make it transparent */
+            border-radius: 10px; /* Maintain the border-radius */
+            background-image: linear-gradient(white, white), /* Background of content */
+                                linear-gradient(to right, #ff6b6b, #f06595, #c060f0, #6e8efb); /* Gradient for the border */
+            background-origin: border-box; /* Makes the background clip to the border box */
+            background-clip: content-box, border-box; /* Clips the content to the content box and the border to the border box */
+            box-shadow: 0 0 15px rgba(0,0,0,0.5); /* Optional: Adds shadow for depth */
         }
 
-        /* Placeholder elements styles */
-        .placeholder {
-            background: #333;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
+        /* Gradient Text for Headers */
+        .gradient-text {
+            background: linear-gradient(to right, #ff6b6b, #f06595, #c060f0, #6e8efb);
+            -webkit-background-clip: text;
+            color: transparent; /* Fallback color */
+            display: inline-block; /* Required for gradient background to work */
         }
 
-        a, button {
-            background-color: #444;
-            color: #fff;
-            padding: 10px 15px;
-            text-decoration: none;
-            border: none;
-            border-radius: 5px;
-            margin: 10px;
-            cursor: pointer;
-        }
-
-        a:hover, button:hover {
-            background-color: #555;
-        }
-
-        /* Image and Video Feed Styles */
+        /* Ensure the video feed fits within the container */
         #video_feed {
-            border: 5px solid #333333; /* Darker border for contrast */
+            width: 100%; /* Make video feed responsive */
+            max-width: 640px; /* Maximum width */
+            height: auto; /* Maintain aspect ratio */
+            /* Define a gradient for the border */
+            border: solid 5px transparent; /* Set border size and make it transparent */
+            /* border-radius: 10px; Maintain the border-radius */
+            background-image: linear-gradient(white, white), /* Background of content */
+                                linear-gradient(to right, #ff6b6b, #f06595, #c060f0, #6e8efb); /* Gradient for the border */
+            background-origin: border-box; /* Makes the background clip to the border box */
+            background-clip: content-box, border-box; /* Clips the content to the content box and the border to the border box */
+            box-shadow: 0 0 15px rgba(255,255,255,.5); /* Optional: Adds shadow for depth */
+        }
+
+        .button-style {
+            display: flex;
+            /* flex-direction: column; */
+            align-items: center;
+            color: #e0e0e0;
+            padding: 2px 5px;
+            text-align: center;
+            font-size: 16px;
+            margin: 30px 2px;
+            cursor: pointer;
+            border: solid 5px transparent;
+            border-image: linear-gradient(to right, #ff6b6b, #f06595, #c060f0, #6e8efb) 1;
             border-radius: 10px;
-            box-shadow: 0 0 15px rgba(255,255,255,.5); /* Light shadow for depth */
+            box-shadow: 0 0 15px rgba(255,255,255,.5);
+            
         }
 
-        .detected-names, .additional-content {
-            color: #ffffff; /* Bright white for visibility */
-            margin-left: 20px;
+        a:-webkit-any-link {
+            color: #e0e0e0;
+            cursor: pointer;
+            text-decoration: underline;
         }
 
-        /* Responsive Design */
-        @media (max-width: 700px) {
-            h1 {
-                font-size: 2rem;
+        /* Responsive adjustments */
+        @media (max-width: 1024px) {
+            .flex-container {
+                flex-direction: column;
+                align-items: center;
             }
-            #video_feed, .detected-names, .additional-content {
-                width: 90%;
-                height: auto;
+            
+            .video-container, .detected-history {
+                width: 100%;
+                max-width: 640px; /* Video feed max width */
                 margin-left: 0;
-                margin-top: 20px;
+                margin-right: 0;
             }
+            
+            .detected-history {
+                order: 1; /* Timeline comes after video feed */
+                max-height: none;
+                overflow-y: auto;
+            }
+        }
+
+        @media (max-width: 700px) {
+            /* Further adjustments for very small screens */
+            .flex-container {
+                margin: 0; /* Remove margin for edge-to-edge layout */
+                margin-top: 50px;
+
+            }
+            
+            .video-container, .detected-history {
+                padding: 5; /* Remove padding for edge-to-edge layout */
+            }
+            
+            h1 {
+                padding-top: 400px;
+            }
+
+
+            #video_feed {
+                max-width: 100vw; /* Ensure video is not wider than the screen */
+                height: auto; /* Maintain aspect ratio */
+            }
+            .detected-history {
+                top: 0; /* Remove the top position */
+                max-width: fit-content; /* Allow the timeline to grow */
+            }
+        }
+
+
+
+        /* Table Styles */
+        #history-table {
+            width: 100%; /* Full width of its parent */
+            border-collapse: collapse; /* Collapse borders for a clean look */
+            /* background: #333; Match your dark theme */
+            color: #fff; /* White text for readability */
+            margin-top: 5px; /* Space after the header */
+        }
+
+        #history-table thead {
+            background: #444; /* Slightly darker background for the header */
+        }
+
+        #history-table th, #history-table td {
+            padding: 10px; /* Padding for table cells */
+            border-bottom: 1px solid #555; /* Border between rows */
+        }
+
+        #history-table tr:last-child td {
+            border-bottom: none; /* No border for the last row */
+        }
+
+        /* Scrollable tbody */
+        #history-table tbody {
+            display: block; /* Block display to allow height and overflow styles */
+            max-height: 400px; /* Set the max height to the same max height as detections-history h2 */
+            overflow-y: auto; /* Add scrollbar if needed */
+        }
+
+        #history-table thead, #history-table tbody tr {
+            display: table; /* Table display to keep table behavior */
+            width: 100%; /* Full width of the table */
+            table-layout: fixed; /* Fixed layout for equal column widths */
+        }
+
+        #history-table thead {
+            width: calc(100% - 17px); /* Adjust for scrollbar width */
         }
     </style>
 </head>
 <body>
-    <h1>HODOR</h1>
-    <div class="content-container">
-        <img id="video_feed" src="{{ url_for('video_feed') }}" width="640" height="480">
-        <div class="detected-names">
-            <h2>Detected Persons:</h2>
-            <ul id="names-list"></ul> <!-- Dynamic name list -->
+    <div class="flex-container">
+        <div class="video-container">
+            <h1 class="gradient-text">HODOR</h1>
+            <h2 class="sub-header">AI-Powered Entrance Monitoring</h2>
+            <img id="video_feed" src="{{ url_for('video_feed') }}" width="640" height="480", onerror="handleImageError()">
+            <div id="error_message" style="display:none; color: red;">No intrusions detected, check back later...</div>
+            <div class="detected-names">
+                <h2>Live Monitoring:</h2>
+                <ul id="names-list"></ul> <!-- Dynamic name list -->
+            </div>
+            <div class="button-style">
+                <a href="http://192.168.1.34:5000/" target="_blank">Add known faces to the model</a>
+                <!-- <button onclick="window.open(["http://192.168.1.34:5000/"], '_blank')" class="button-style">Add known faces to the model</button> -->
+            </div>
+        </div>
+        <div class="detected-history">
+            <h2>Detections in Last 24 Hours:</h2>
+            <table id="history-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Detected At</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dynamic rows will be added here -->
+                </tbody>
+            </table>
         </div>
     </div>
-    <div class="additional-content">
-        <button>Placeholder Button</button>
-        <a href="#">Placeholder Link</a>
-        <div class="placeholder">
-            <p>This is a placeholder graphic.</p>
-        </div>
-    </div>
+
     <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script> 
+        function fetchDetectionsLast24Hours() {
+            fetch('/detections_last_24_hours')
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById('history-table').querySelector('tbody');
+                    tableBody.innerHTML = ''; // Clear existing rows
+                    data.forEach(detection => {
+                        let row = tableBody.insertRow();
+                        let nameCell = row.insertCell(0);
+                        let timeCell = row.insertCell(1);
+                        nameCell.textContent = detection.Name;
+                        timeCell.textContent = detection.Detected_at;
+                    });
+                });
+        }
+
+        // Update the interval as needed
+        fetchDetectionsLast24Hours();
+        setInterval(fetchDetectionsLast24Hours, 30000);
+
+    </script>
     <script>
         var socket = io.connect('http://' + document.domain + ':' + location.port);
 
@@ -197,5 +341,6 @@
             });
         });
     </script>
+
 </body>
 </html>
